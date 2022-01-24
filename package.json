@@ -1,5 +1,5 @@
 {
-  "name": "@doop/service-http",
+  "name": "@doop/http",
   "version": "1.0.0",
   "description": "A HTTP client service for the Doop framework",
   "repository": {
