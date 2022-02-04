@@ -17,5 +17,8 @@
   "homepage": "https://github.com/MomsFriendlyDevCo/doop-service-http#readme",
   "dependencies": {
     "axios": "^0.24.0"
-  }
+  },
+  "workspaces": [
+    "../*"
+  ]
 }
