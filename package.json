@@ -1,6 +1,6 @@
 {
   "name": "@doop/http",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A HTTP client service for the Doop framework",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/MomsFriendlyDevCo/doop-service-http#readme",
   "dependencies": {
-    "axios": "^0.24.0"
+    "axios": "^0.26.0"
   },
   "workspaces": [
     "../*"
