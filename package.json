@@ -4,7 +4,7 @@
   "description": "A HTTP client service for the Doop framework",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MomsFriendlyDevCo/doop-service-http.git"
+    "url": "git+https://github.com/MomsFriendlyDevCo/doop-http.git"
   },
   "keywords": [
     "doop"
@@ -12,9 +12,9 @@
   "author": "Matt Carter <m@ttcarter.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MomsFriendlyDevCo/doop-service-http/issues"
+    "url": "https://github.com/MomsFriendlyDevCo/doop-http/issues"
   },
-  "homepage": "https://github.com/MomsFriendlyDevCo/doop-service-http#readme",
+  "homepage": "https://github.com/MomsFriendlyDevCo/doop-http#readme",
   "dependencies": {
     "axios": "^0.26.1"
   }
