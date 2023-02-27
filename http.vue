@@ -69,5 +69,22 @@ axios.interceptors.response.use(
 );
 // }}}
 
+// Utility: $http.cleanUrl {{{
+/**
+* Clean a URL to remove all `undefined` values before requesting it
+* @param {String} url The URL to clearn
+* @returns {String} The input URL without any `undefined` params
+*/
+axios.cleanUrl = function cleanUrl(url) {
+	let u = new URL(url, window.location.href);
+	u.searchParams.forEach((v, k) => {
+		if (v == 'undefined')
+			u.searchParams.delete(k);
+	})
+
+	return u.toString();
+};
+// }}}
+
 app.service('$http', ()=> axios); // NOTE: Because Axios is a function (with static methods) we have to wrap the return in an arrow function return to not confuse the app.service() scope fetcher
 </script>
