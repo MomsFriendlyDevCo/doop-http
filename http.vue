@@ -86,5 +86,41 @@ axios.cleanUrl = function cleanUrl(url) {
 };
 // }}}
 
+// Utility: mongoQueryIn {{{
+/**
+* Utility function to return a ReST / Mongoosy+ReST compatible expression for a field
+* This takes all the selected items, combines the IDs and returns either a single expression (if one item selected) or an `$in` expression if multiple
+*
+* @param {String} [field='status'] The name of the field in the output object
+* @param {Object|Array} values The values to construct from, either an array of keys or an object (where only truthy keys are taken)
+* @returns {Object|Null} Either a ReST compatible query or Null
+*
+* @example Compress all selected statuses suitable for a rest query
+* axios.get('/api/widgets', {
+*   params: {
+*     ...this.$http.mongoQueryIn('status'),
+*   },
+* });
+*/
+axios.mongoQueryIn = function(field = 'status', values) {
+	// Make a list of IDs that are selected
+	let selected =
+		Array.isArray(values) ? values
+		: typeof values == 'object' ?
+			Object.entries(values)
+			.filter(([key, val]) => val)
+			.map(([key]) => key)
+		: (()=> { throw new Error('axios.mongoQueryIn() can only accept arrays or Objects') })();
+
+	if (selected.length == 0) { // Nothing - return null
+		return null;
+	} else if (selected.length == 1) { // 1 Selected - Return simple {key: val}
+		return {[field]: selected[0]};
+	} else { // Multiple selected - use `{KEY: {$in: VALUES}}`
+		return {[field]: {$in: selected}};
+	}
+};
+// }}}
+
 app.service('$http', ()=> axios); // NOTE: Because Axios is a function (with static methods) we have to wrap the return in an arrow function return to not confuse the app.service() scope fetcher
 </script>
