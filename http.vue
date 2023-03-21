@@ -73,12 +73,19 @@ axios.interceptors.response.use(
 /**
 * Clean a URL to remove all `undefined` values before requesting it
 * @param {String} url The URL to clearn
-* @returns {String} The input URL without any `undefined` params
+* @param {Object} [options] Additional options to mutate behaviour
+* @param {Array<String>} [options.remove] Array of values which should be considered 'empty' and should be removed. Defaults to falsy + 'null' + 'undefined'
+* @returns {String} The input URL without any removeable params
 */
-axios.cleanUrl = function cleanUrl(url) {
+axios.cleanUrl = function cleanUrl(url, options) {
+	let settings = {
+		remove: ['', 'null', 'undefined'],
+		...options,
+	};
+
 	let u = new URL(url, window.location.href);
 	u.searchParams.forEach((v, k) => {
-		if (v == 'undefined')
+		if (settings.remove.includes(v))
 			u.searchParams.delete(k);
 	})
 
