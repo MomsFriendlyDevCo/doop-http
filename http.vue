@@ -100,6 +100,7 @@ axios.cleanUrl = function cleanUrl(url, options) {
 *
 * @param {String} [field='status'] The name of the field in the output object
 * @param {Object|Array} values The values to construct from, either an array of keys or an object (where only truthy keys are taken)
+* @param {Object} [format='$in'] How to represent the data. ENUM: '$in' (return a Mongo '$in' query where appropriate), 'csv' (return a CSV of selected fields)
 * @returns {Object|Null} Either a ReST compatible query or Null
 *
 * @example Compress all selected statuses suitable for a rest query
@@ -109,7 +110,7 @@ axios.cleanUrl = function cleanUrl(url, options) {
 *   },
 * });
 */
-axios.mongoQueryIn = function(field = 'status', values) {
+axios.mongoQueryIn = function(field = 'status', values, format = '$in') {
 	// Make a list of IDs that are selected
 	let selected =
 		Array.isArray(values) ? values
@@ -123,8 +124,12 @@ axios.mongoQueryIn = function(field = 'status', values) {
 		return null;
 	} else if (selected.length == 1) { // 1 Selected - Return simple {key: val}
 		return {[field]: selected[0]};
-	} else { // Multiple selected - use `{KEY: {$in: VALUES}}`
+	} else if (format == '$in') { // Multiple selected - use `{KEY: {$in: VALUES}}`
 		return {[field]: {$in: selected}};
+	} else if (format == 'csv') { // Multiple selected - use `{KEY: VAL1,VAL2...}`
+		return {[field]: selected.join(',')};
+	} else {
+		throw new Error(`Unknown output format "${format}"`);
 	}
 };
 // }}}
